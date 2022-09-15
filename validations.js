@@ -10,16 +10,12 @@ export const loginValidation = [
     body('password', 'Неверный формат пароля').isLength({min: 4}),
 ]
 
-export const postCreateValidation = [
+export const orderCreateValidation = [
     body('title', 'Введите заготовок статьи').isLength({min: 3}).isString(),
     body('text', 'Введите текст стать').isLength({min: 5}).isString(),
     body('tags', 'Неверный формат тэгов (укажите строку)').optional().isString(),
     body('imageUrl', 'Неверная ссылка на изображение').optional().isString(),
 ]
-
-
-
-
 
 
 

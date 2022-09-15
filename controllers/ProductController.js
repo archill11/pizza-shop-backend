@@ -1,5 +1,5 @@
 import ProductModel from "../models/Product.js"
-// import OrderModel from "../models/Order"
+import OrderModel from "../models/Order.js"
 
 
 
@@ -56,17 +56,27 @@ export const getOne = async (req, res) => {
     }
 }
 
-// export const create = async (req, res) => {
-//     try {
-//       console.log(req.body);
-//         const doc = new OrderModel(req.body)
+export const create = async (req, res) => {
+    try {
+        console.log(req.body);
 
-//         // const post = await doc.save()
-//         // res.json(post)
-//     } catch (err) {
-//         console.log(err);
-//         res.status(500).json({ message: 'Не удалось создать статью' })
-//     }
-// }
+        const lastOrder = await OrderModel.findOne({user: req.user}).sort({ createdAt: -1 })
+        const maxOrder = lastOrder ? lastOrder.order : 0
+      console.log(req.body.list);
+        const doc = new OrderModel({
+          list: req.body.list,
+          user: req.user,
+          total: req.body.list.reduce((sum, curr) => curr.price * curr.count + sum, 0),
+          order: maxOrder + 1
+        })
+        // сохраняем документ в БД
+        const order = await doc.save()
+
+        res.json(order)
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: 'Не удалось создать заказ' })
+    }
+}
 
 

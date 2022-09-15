@@ -7,7 +7,7 @@ import morgan from 'morgan';
 
 import { registerValidation, loginValidation } from './validations.js';
 import { UserController, ProductController } from './controllers/index.js';
-import { checkAuth, handleValidationErroes } from './utils/index.js'
+import { checkAuth, handleValidationErrors } from './utils/index.js'
 
 const port = process.env.PORT || 4444
 
@@ -25,15 +25,15 @@ app.use(cors())
 
 
 
-app.post('/auth/login', loginValidation, handleValidationErroes, UserController.login)
-app.post('/auth/register', registerValidation, handleValidationErroes, UserController.register)
+app.post('/auth/login', loginValidation, handleValidationErrors, UserController.login)
+app.post('/auth/register', registerValidation, handleValidationErrors, UserController.register)
 app.get('/auth/me', checkAuth, UserController.getMe)
 
 
 
 app.get('/products', ProductController.getAll)
 app.get('/products/:id', ProductController.getOne)
-// app.post('/orders', checkAuth, handleValidationErroes, ProductController.create)
+app.post('/orders', checkAuth, ProductController.create)
 
 
 
