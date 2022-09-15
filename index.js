@@ -12,7 +12,7 @@ import { checkAuth, handleValidationErrors } from './utils/index.js'
 const port = process.env.PORT || 4444
 
 mongoose
-    .connect('mongodb+srv://admin:admin@cluster0.l79yafz.mongodb.net/pizza?retryWrites=true&w=majority')
+    .connect(process.env.MONGO_DB_URI)
     .then(()=> console.log('DataBase ok'))
     .catch((err) => console.log('DataBase ERR', err))
 
